@@ -32,6 +32,12 @@ export default function PostsReducer(state = initialState, action) {
             clonedState.activePost = action.payload
             return clonedState;
 
+        case PostActions.REMOVE_POST:
+            // Filter method creates a new array, without the element we want delete
+            clonedState.posts = state.posts.filter(el => el.id !== action.payload)
+            clonedState.activePost = null;
+            return clonedState;
+
         default:
     }
 

@@ -1,18 +1,25 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Panel } from 'react-bootstrap';
+import { Panel, Button } from 'react-bootstrap';
+
+import { removePost } from "../actions/posts";
 
 class PostDetails extends Component {
     
     render () {
         if (this.props.selectedPost) {
             return (
-                <Panel bsStyle="success">
-                    <Panel.Heading>
-                        <Panel.Title componentClass="h3">{ this.props.selectedPost.title }</Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body>{ this.props.selectedPost.body }</Panel.Body>
-                </Panel>
+                <div>
+                    <Panel bsStyle="success">
+                        <Panel.Heading>
+                            <Panel.Title componentClass="h3">{ this.props.selectedPost.title }</Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body>{ this.props.selectedPost.body }</Panel.Body>
+                    </Panel>
+                    <Button bsStyle="danger" onClick={ () => { this.props.removePost(this.props.selectedPost.id) } }>
+                        Delete This Post
+                    </Button>
+                </div>
             )
         } else {
             return (
@@ -29,4 +36,10 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, null)(PostDetails);
+function mapDispatchToProps(dispatch) {
+    return {
+        removePost: (postId) => dispatch(removePost(postId))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
